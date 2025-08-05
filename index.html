@@ -1,0 +1,2156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👻 Spooky Halloween 🎃</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Metal+Mania&family=Griffy&display=swap');
+        /* Fog overlay */
+        .fog-overlay {
+            pointer-events: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 9998;
+            background: url('https://i.imgur.com/4NJl6lA.png'), linear-gradient(rgba(255,255,255,0.08), rgba(0,0,0,0.12)); /* fallback fog */
+            opacity: 0.33;
+            animation: fogMove 60s linear infinite;
+        }
+        @keyframes fogMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 100vw 0; }
+        }
+
+        /* Eyes */
+        .spooky-eyes {
+            position: fixed;
+            width: 60px;
+            height: 30px;
+            left: 50vw;
+            top: 80vh;
+            z-index: 10000;
+            pointer-events: none;
+        }
+        .spooky-eye {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: #fff;
+            border-radius: 50%;
+            border: 2px solid #222;
+            left: 0;
+            top: 0;
+            box-shadow: 0 0 8px #000;
+        }
+        .spooky-eye.right {
+            left: 32px;
+        }
+        .spooky-pupil {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #111;
+            border-radius: 50%;
+            top: 7px;
+            left: 7px;
+            transition: all 0.1s;
+        }
+
+        /* Dripping blood effect */
+        .drip {
+            position: absolute;
+            width: 8px;
+            height: 24px;
+            background: linear-gradient(to bottom, #ff6b35 60%, #a30000 100%);
+            border-radius: 50% 50% 60% 60%/60% 60% 100% 100%;
+            z-index: 1001;
+            animation: dripAnim 2s infinite;
+        }
+        @keyframes dripAnim {
+            0% { height: 0; opacity: 0.7; }
+            60% { height: 24px; opacity: 1; }
+            100% { height: 0; opacity: 0; }
+        }
+
+        /* Haunted cursor trail */
+        .ghost-cursor {
+            position: fixed;
+            pointer-events: none;
+            z-index: 99999;
+            font-size: 1.5rem;
+            opacity: 0.5;
+            filter: blur(0.5px);
+            transition: opacity 0.3s;
+        }
+
+        /* Flicker effect */
+        .flicker {
+            animation: flickerBg 0.2s 2;
+        }
+        @keyframes flickerBg {
+            0%, 100% { filter: none; }
+            30% { filter: brightness(2) contrast(2) hue-rotate(-20deg); }
+            60% { filter: brightness(0.5) contrast(1.5) hue-rotate(20deg); }
+        }
+
+        /* Shake effect */
+        .shake {
+            animation: shakePage 0.4s;
+        }
+        @keyframes shakePage {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            20% { transform: translate(-8px, 4px) rotate(-2deg); }
+            40% { transform: translate(8px, -4px) rotate(2deg); }
+            60% { transform: translate(-4px, 8px) rotate(-1deg); }
+            80% { transform: translate(4px, -8px) rotate(1deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: 
+                linear-gradient(rgba(13, 13, 13, 0.7), rgba(13, 13, 13, 0.7)),
+                url('https://cdn.pixabay.com/photo/2024/10/16/14/07/ai-generated-9124846_640.jpg') center/cover fixed,
+                url('https://images.unsplash.com/photo-1635522771146-ab0fb3a6b5a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover fixed,
+                linear-gradient(135deg, #0d0d0d 0%, #1a0d1a 50%, #0d0d0d 100%);
+            color: #ff6b35;
+            font-family: 'Griffy', cursive;
+            font-size: 18px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Animated background elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .ghost, .bat, .spider {
+            position: absolute;
+            opacity: 0.7;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .ghost {
+            font-size: 2rem;
+            animation-delay: 0s;
+        }
+        
+        .bat {
+            font-size: 1.5rem;
+            animation-delay: 2s;
+            animation-duration: 4s;
+        }
+        
+        .spider {
+            font-size: 1rem;
+            animation-delay: 4s;
+            animation-duration: 8s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(13, 13, 13, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 0;
+            z-index: 1000;
+            border-bottom: 2px solid #ff6b35;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .nav-logo {
+            height: 48px;
+            width: 48px;
+            object-fit: contain;
+            margin-right: 1.5rem;
+            vertical-align: middle;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ff6b35, 0 0 20px #1a0d1a;
+            background: #0d0d0d;
+        }
+        
+        
+        nav a {
+            color: #ff6b35;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        nav a:hover {
+            color: #fff;
+            background: #ff6b35;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
+        }
+        
+        /* Main content sections */
+        section {
+            min-height: 100vh;
+            padding: 6rem 2rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Hero Section */
+        #home {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: 
+                radial-gradient(circle at center, rgba(255, 107, 53, 0.15) 0%, transparent 70%),
+                linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('https://images.unsplash.com/photo-1635522771146-ab0fb3a6b5a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover;
+        }
+        
+        .hero-title {
+            font-family: 'Nosifer', cursive;
+            font-size: 5rem;
+            color: #ff6b35;
+            text-shadow: 0 0 20px #ff6b35, 0 0 40px #ff6b35, 4px 4px 8px rgba(0, 0, 0, 0.8);
+            margin-bottom: 2rem;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 20px #ff6b35, 0 0 30px #ff6b35; }
+            to { text-shadow: 0 0 30px #ff6b35, 0 0 50px #ff6b35; }
+        }
+        
+        .hero-subtitle {
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: #ffa500;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            font-weight: bold;
+        }
+        
+        /* Countdown Timer */
+        .countdown-container {
+            background: rgba(0, 0, 0, 0.8);
+            border: 3px solid #ff6b35;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.3);
+        }
+        
+        .countdown-title {
+            font-family: 'Creepster', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #ffa500;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        .countdown {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .time-unit {
+            background: linear-gradient(145deg, #1a0d1a, #0d0d0d);
+            border: 2px solid #ff6b35;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            min-width: 100px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .time-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ff6b35;
+            display: block;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        .time-label {
+            font-size: 1.1rem;
+            color: #ffa500;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+        
+        /* About Section */
+        #about {
+            background: 
+                linear-gradient(rgba(26, 13, 26, 0.8), rgba(26, 13, 26, 0.8)),
+                url('https://images.unsplash.com/photo-1605006003808-8e3de9cec9ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover;
+            text-align: center;
+        }
+        
+        .section-title {
+            font-family: 'Creepster', cursive;
+            font-size: 3.5rem;
+            color: #ff6b35;
+            margin-bottom: 2rem;
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
+        }
+        
+        .about-content {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 0 auto;
+            color: #ffa500;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            font-weight: bold;
+        }
+        
+        /* Gallery Section */
+        #gallery {
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+                url('https://cdn.pixabay.com/photo/2019/10/09/13/10/halloween-4537430_640.jpg') center/cover;
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 3px solid #ff6b35;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05) rotate(1deg);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.4);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: filter 0.3s ease;
+        }
+        
+        .gallery-item:hover img {
+            filter: brightness(1.2) contrast(1.1);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            color: #ff6b35;
+            padding: 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+        
+        .gallery-title {
+            font-family: 'Metal Mania', cursive;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        .gallery-description {
+            font-size: 1rem;
+            color: #ffa500;
+            font-weight: bold;
+        }
+        
+        /* Events Section */
+        #events {
+            text-align: center;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://cdn.pixabay.com/photo/2024/10/06/08/06/ai-generated-9099326_640.jpg') center/cover;
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .event-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #ff6b35;
+            border-radius: 15px;
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+        }
+        
+        .event-title {
+            font-family: 'Metal Mania', cursive;
+            font-size: 1.8rem;
+            color: #ff6b35;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        .event-description {
+            color: #ffa500;
+            line-height: 1.6;
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            font-weight: bold;
+        }
+        
+        /* Contact Section */
+        #contact {
+            background: 
+                linear-gradient(rgba(26, 13, 26, 0.8), rgba(26, 13, 26, 0.8)),
+                url('https://cdn.pixabay.com/photo/2024/09/28/08/23/ai-generated-9080583_640.jpg') center/cover;
+            text-align: center;
+        }
+        
+        .contact-form {
+            max-width: 500px;
+            margin: 0 auto;
+            margin-top: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ff6b35;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #ff6b35;
+            border-radius: 8px;
+            color: #ffa500;
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 107, 53, 0.5);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(145deg, #ff6b35, #ff4500);
+            color: white;
+            border: none;
+            padding: 1.2rem 2.5rem;
+            border-radius: 25px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        .submit-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 107, 53, 0.4);
+        }
+        
+        /* SPOOKY FEATURES */
+        
+        /* Music Controls */
+        .music-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.9);
+            border: 3px solid #ff6b35;
+            border-radius: 15px;
+            padding: 1rem;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .music-btn {
+            background: linear-gradient(145deg, #ff6b35, #ff4500);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+        
+        .music-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+        }
+        
+        /* Jump Scare Overlay */
+        .jumpscare-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            animation: flashRed 0.2s infinite;
+        }
+        
+        .jumpscare-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            animation: shake 0.1s infinite;
+        }
+        
+        @keyframes flashRed {
+            0%, 100% { background: black; }
+            50% { background: #440000; }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-5px, -5px) rotate(-1deg); }
+            50% { transform: translate(5px, -5px) rotate(1deg); }
+            75% { transform: translate(-5px, 5px) rotate(-1deg); }
+        }
+        
+        /* Spooky Notifications */
+        /* Ouija Board Styles */
+        #ouija {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                        url('https://images.unsplash.com/photo-1509248961158-e54f6934749c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+        }
+        
+        #ouijaBoard {
+            background: #000000;
+            width: 90%;
+            max-width: 900px;
+            aspect-ratio: 1.6/1;
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            margin: 2rem auto;
+            border: 4px solid #654321;
+            box-shadow: 0 0 30px rgba(255,107,53,0.3),
+                       inset 0 0 50px rgba(0, 0, 0, 0.3);
+            background-image: 
+                radial-gradient(circle at 50% 50%, 
+                    rgba(0, 0, 0, 0.8) 0%,
+                    rgba(51, 168, 41, 0.9) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            text-align: center;
+            transform: perspective(1000px) rotateX(5deg);
+            transition: transform 0.3s ease;
+        }
+
+        #ouijaBoard:hover {
+            transform: perspective(1000px) rotateX(0deg);
+            box-shadow: 0 0 40px rgba(253, 1, 1, 0.5),
+                        inset 0 0 60px rgba(3, 39, 156, 0.5);
+        }
+
+        #ouijaMessage {
+            font-family: 'Metal Mania', cursive;
+            font-size: 2.5rem;
+            color: #ec1708;
+            text-align: center;
+            margin-bottom: 1rem;
+            min-height: 3.5rem;
+            text-shadow: 0 0 10px rgba(255,107,53,0.5),
+                        0 0 20px rgba(255,107,53,0.3);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            z-index: 1000;
+            
+        }
+
+        #ouijaMessage.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        #ouijaPlanchette {
+            width: 80px;
+            height: 120px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            cursor: grab;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            filter: drop-shadow(0 0 10px rgba(255,107,53,0.5));
+            z-index: 1000;
+            user-select: none;
+        }
+
+        #ouijaPlanchette:hover {
+            filter: drop-shadow(0 0 15px rgba(247, 13, 4, 0.7))
+                   drop-shadow(0 0 30px rgba(30, 8, 228, 0.3));
+            transform: translate(-50%, -50%) scale(1.05);
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+
+        #ouijaPlanchette:active {
+            cursor: grabbing;
+            transform: translate(-50%, -50%) scale(0.95);
+            transition: transform 0.1s ease;
+        }
+
+        #ouijaPlanchette.moving {
+            transition: none;
+            filter: drop-shadow(0 0 10px rgba(6, 236, 94, 0.5));
+            animation: planchetteGlow 0.3s infinite alternate;
+
+            
+        }
+
+        #ouijaQuestion {
+            width: 80%;
+            padding: 1rem 1.5rem;
+            background: rgba(0,0,0,0.8);
+            border: 2px solid #ee0a0a;
+            color: #f31606;
+            border-radius: 12px;
+            font-family: 'Griffy', cursive;
+            margin-top: 2rem;
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        #ouijaQuestion::placeholder {
+            color: rgba(255,107,53,0.5);
+            font-family: 'Griffy', cursive;
+            font-size: 1.1rem;
+            text-shadow: 0 0 5px rgba(204, 64, 13, 0.3);
+        }
+
+        #ouijaQuestion:focus {
+            outline: none;
+            box-shadow: 0 0 15px rgba(47, 6, 226, 0.3),
+                       0 0 30px rgba(189, 52, 2, 0.1);
+            border-color: #cf7208;
+            background: rgba(0,0,0,0.9);
+        }
+
+        #ouijaQuestion:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .ouija-letter {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Metal Mania', cursive;
+            font-size: 2rem;
+            color: #e91506;
+            text-shadow: 0 0 5px rgba(3, 69, 252, 0.5);
+            user-select: none;
+            transition: color 0.3s ease;
+            z-index: 5;
+            cursor: pointer;
+            
+        }
+
+        .ouija-letter.highlight {
+            color: #f12c09;
+            text-shadow: 0 0 10px rgba(15, 221, 25, 0.7);
+            animation: letterGlow 0.5s ease-in-out;
+        }
+
+        @keyframes letterGlow {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .ouija-symbols {
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            top: 5%;
+            left: 5%;
+        }
+
+        .ouija-yes,
+        .ouija-no {
+            position: fixed;
+            font-family: 'Metal Mania', cursive;
+            font-size: 1.8rem;
+            color: #8B4513;
+            text-shadow: 0 0 5px rgba(139, 69, 19, 0.5);
+            padding: 0.5rem 1rem;
+            user-select: none;
+            transition: color 0.3s ease;
+        }
+
+        .ouija-yes { top: 10%; left: 15%; }
+        .ouija-no { top: 10%; right: 15%; }
+
+        .ouija-yes.highlight,
+        .ouija-no.highlight {
+            color: #ff6b35;
+            text-shadow: 0 0 10px rgba(255, 107, 53, 0.7);
+            animation: symbolGlow 0.5s ease-in-out;
+        }
+
+        @keyframes symbolGlow {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .candle {
+            position: fixed;
+            bottom: 240px;
+            width: 30px;
+            height: 100px;
+            background: linear-gradient(to bottom, #ffa07a, #cd853f);
+            border-radius: 10px;
+        }
+
+        .candle::before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #ffd700;
+            border-radius: 50%;
+            filter: blur(5px);
+            animation: flicker 3s infinite;
+        }
+
+        .candle:nth-child(1) { top: 20px; left: 20px; }
+        .candle:nth-child(2) { top: 20px; right: 20px; }
+        .candle:nth-child(3) { bottom: 20px; left: 20px; }
+        .candle:nth-child(4) { bottom: 20px; right: 20px; }
+
+        @keyframes flicker {
+            0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+            50% { transform: translateX(-50%) scale(0.8); opacity: 0.8; }
+        }
+
+        .spooky-notification {
+            position: fixed;
+            top: 120px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 3px solid #ff6b35;
+            border-radius: 15px;
+            padding: 1.5rem;
+            color: #ff6b35;
+            font-family: 'Metal Mania', cursive;
+            font-size: 1.3rem;
+            z-index: 1000;
+            animation: slideIn 0.5s ease-out;
+            max-width: 350px;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        /* Spooky Chat Widget */
+        .spooky-chat-toggle {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            z-index: 11000;
+            background: linear-gradient(145deg, #1a0d1a, #ff6b35);
+            color: #fff;
+            border: 3px solid #ff6b35;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 2rem;
+            box-shadow: 0 0 20px #ff6b35;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .spooky-chat-toggle:hover {
+            background: #ff6b35;
+            color: #1a0d1a;
+            box-shadow: 0 0 30px #ff6b35;
+        }
+        .spooky-chat-widget {
+            position: fixed;
+            bottom: 100px;
+            right: 32px;
+            width: 320px;
+            max-width: 90vw;
+            background: rgba(13,13,13,0.98);
+            border: 3px solid #ff6b35;
+            border-radius: 18px;
+            box-shadow: 0 0 30px #ff6b35, 0 0 10px #1a0d1a;
+            z-index: 11001;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: 'Griffy', cursive;
+        }
+        .spooky-chat-header {
+            background: #ff6b35;
+            color: #1a0d1a;
+            padding: 1rem;
+            font-family: 'Nosifer', cursive;
+            font-size: 1.3rem;
+            text-align: center;
+            border-bottom: 2px solid #1a0d1a;
+        }
+        .spooky-chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background: rgba(0,0,0,0.85);
+            color: #ffa500;
+            font-size: 1.1rem;
+            min-height: 120px;
+            max-height: 220px;
+        }
+        .spooky-chat-input-row {
+            display: flex;
+            border-top: 2px solid #ff6b35;
+            background: #1a0d1a;
+        }
+        .spooky-chat-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: #fff;
+            padding: 0.7rem 1rem;
+            font-size: 1.1rem;
+            font-family: inherit;
+        }
+        .spooky-chat-input:focus {
+            outline: none;
+        }
+        .spooky-chat-send {
+            background: #ff6b35;
+            color: #1a0d1a;
+            border: none;
+            font-size: 1.3rem;
+            padding: 0 1.2rem;
+            cursor: pointer;
+            font-family: inherit;
+            border-left: 2px solid #1a0d1a;
+            transition: background 0.2s;
+        }
+        .spooky-chat-send:hover {
+            background: #ffa500;
+        }
+
+
+    /* ...existing CSS... */
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+            }
+            
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .about-content {
+                font-size: 1.2rem;
+            }
+            
+            .gallery-description {
+                font-size: 0.9rem;
+            }
+            
+            nav ul {
+                gap: 0.5rem;
+            }
+            
+            nav a {
+                font-size: 1.1rem;
+                padding: 0.5rem 0.8rem;
+            }
+            
+            .countdown {
+                gap: 1rem;
+            }
+            
+            .time-unit {
+                min-width: 80px;
+                padding: 0.8rem;
+            }
+            
+            .time-number {
+                font-size: 2.2rem;
+            }
+            
+            .countdown-title {
+                font-size: 2rem;
+            }
+            
+            .music-controls {
+                bottom: 10px;
+                left: 10px;
+                padding: 0.8rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .spooky-notification {
+                right: 10px;
+                max-width: 280px;
+                font-size: 1.1rem;
+            }
+        }
+</style>
+<!-- ...existing code... -->
+</head>
+<body>
+    <!-- Fog overlay -->
+    <!-- Scream audio for jump scare (preloaded, always present) -->
+    <audio id="screamAudio" preload="auto" controls style="display:none;">
+        <source src="./assets/girl-scream-45657.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <div class="fog-overlay"></div>
+    <!-- Spooky eyes -->
+    <div class="spooky-eyes" id="spookyEyes">
+        <div class="spooky-eye left"><div class="spooky-pupil"></div></div>
+        <div class="spooky-eye right"><div class="spooky-pupil"></div></div>
+    </div>
+    <!-- Floating background elements -->
+    <div class="floating-elements">
+        <div class="ghost" style="top: 10%; left: 10%;">👻</div>
+        <div class="bat" style="top: 20%; right: 15%;">🦇</div>
+        <div class="spider" style="top: 60%; left: 5%;">🕷️</div>
+        <div class="ghost" style="top: 70%; right: 10%;">👻</div>
+        <div class="bat" style="top: 40%; left: 80%;">🦇</div>
+        <div class="spider" style="top: 30%; right: 25%;">🕷️</div>
+    </div>
+
+    <!-- Music Controls -->
+    <div class="music-controls">
+        <button class="music-btn" id="playBtn">🎵 Play Spooky Music</button>
+        <button class="music-btn" id="jumpscareBtn" hidden>👻 Test Jump Scare</button>
+    </div>
+
+    <!-- Jump Scare Overlay -->
+    <div class="jumpscare-overlay" id="jumpscareOverlay">
+        <img id="jumpscareImage" src="https://cdn.pixabay.com/photo/2023/10/20/21/27/ai-generated-8330284_640.jpg" alt="AAAHHH!" class="jumpscare-image">
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <img src="https://cdn.pixabay.com/photo/2024/11/15/18/41/ai-generated-9199895_640.png" alt="Halloween Logo" class="nav-logo">
+        <ul>
+            <li><a href="#home">🏠 Home</a></li>
+            <li><a href="#about">🎃 About</a></li>
+            <li><a href="#gallery">📸 Gallery</a></li>
+            <li><a href="#ouija">🔮 Ouija</a></li>
+            <li><a href="#events">👻 Events</a></li>
+            <li><a href="#contact">🕷️ Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home">
+        <h1 class="hero-title">SPOOKY HALLOWEEN</h1>
+        <p class="hero-subtitle">Enter if you dare... 🎃👻🦇</p>
+        
+        <div class="countdown-container">
+            <h2 class="countdown-title">🎃Halloween Countdown🎃</h2>
+            <div class="countdown" id="countdown">
+                <div class="time-unit">
+                    <span class="time-number" id="days">00</span>
+                    <span class="time-label">Days</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-number" id="hours">00</span>
+                    <span class="time-label">Hours</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-number" id="minutes">00</span>
+                    <span class="time-label">Minutes</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-number" id="seconds">00</span>
+                    <span class="time-label">Seconds</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title">About Halloween</h2>
+        <div class="about-content">
+            <p>Welcome to the most spine-chilling night of the year! Halloween, also known as All Hallows' Eve, is a celebration that brings out our darkest fantasies and sweetest treats. 🍭</p>
+            <br>
+            <p>From ancient Celtic traditions of Samhain to modern trick-or-treating, Halloween has evolved into a night where the veil between the living and the dead grows thin. Dare to explore the shadows, embrace the supernatural, and let your fears come alive! 👻</p>
+            <br>
+            <p>Whether you're carving jack-o'-lanterns, donning frightening costumes, or telling ghost stories by candlelight, Halloween is the perfect time to embrace the macabre and mysterious. 🕯️</p>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery">
+        <h2 class="section-title">👻 Haunted Gallery 📸</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://cdn.pixabay.com/photo/2017/10/13/14/15/fantasy-2847724_640.jpg" alt="Spooky Jack-o'-lanterns">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">🎃 Carved Nightmares</div>
+                    <div class="gallery-description">Evil grins carved in pumpkin flesh, glowing with malevolent intent</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://cdn.pixabay.com/photo/2023/09/25/19/55/autumn-8275922_640.jpg" alt="Haunted Forest">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">🌲 Cursed Woods</div>
+                    <div class="gallery-description">Where shadows whisper and lost souls wander eternally</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://cdn.pixabay.com/photo/2022/11/03/12/38/haunted-house-7567396_640.jpg" alt="Gothic Architecture">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">🏰 House of Horrors</div>
+                    <div class="gallery-description">Ancient walls that have witnessed unspeakable terrors</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://cdn.pixabay.com/photo/2024/08/22/09/00/ai-generated-8988733_640.jpg" alt="Spooky Graveyard">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">⚰️ Final Resting Place</div>
+                    <div class="gallery-description">Where the dead refuse to rest in peace</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://cdn.pixabay.com/photo/2023/10/26/16/12/halloween-8343040_640.png" alt="Dark Gothic Interior">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">🕯️ Chamber of Secrets</div>
+                    <div class="gallery-description">Candlelit corridors hiding centuries of dark mysteries</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://cdn.pixabay.com/photo/2024/06/19/09/09/ghost-8839544_640.jpg" alt="Halloween Decorations">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">🎃 Nightmare Decor</div>
+                    <div class="gallery-description">Festive fears and decorative dread for the season</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://cdn.pixabay.com/photo/2023/09/10/21/10/ai-generated-8245702_640.png" alt="Creepy Cemetery">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">💀 Bone Yard</div>
+                    <div class="gallery-description">Ancient cemetery where spirits roam free</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://cdn.pixabay.com/photo/2024/09/21/10/19/ai-generated-9063481_640.png" alt="Spooky Mansion">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">🏚️ Haunted Manor</div>
+                    <div class="gallery-description">Abandoned mansion with windows like empty souls</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://cdn.pixabay.com/photo/2020/10/21/19/43/jack-o-lanterns-5674148_640.jpg" alt="Halloween Pumpkins">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">🎃 Pumpkin Patch</div>
+                    <div class="gallery-description">Orange orbs waiting to become vessels of fear</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ouija Board Section -->
+    <section id="ouija">
+        <h2 class="section-title">🔮 Spirit Board</h2>
+        <div id="ouijaBoard">
+            <div class="ouija-symbols">
+                <div class="ouija-yes">YES</div>
+                <div class="ouija-no">NO</div>
+                <!-- Add alphabet in a circle -->
+                <div class="ouija-letter" style="top: 30%; left: 30%;">A</div>
+                <div class="ouija-letter" style="top: 30%; left: 40%;">B</div>
+                <div class="ouija-letter" style="top: 30%; left: 50%;">C</div>
+                <div class="ouija-letter" style="top: 30%; left: 60%;">D</div>
+                <div class="ouija-letter" style="top: 40%; left: 30%;">E</div>
+                <div class="ouija-letter" style="top: 40%; left: 40%;">F</div>
+                <div class="ouija-letter" style="top: 40%; left: 50%;">G</div>
+                <div class="ouija-letter" style="top: 40%; left: 60%;">H</div>
+                <div class="ouija-letter" style="top: 50%; left: 30%;">I</div>
+                <div class="ouija-letter" style="top: 50%; left: 40%;">J</div>
+                <div class="ouija-letter" style="top: 50%; left: 50%;">K</div>
+                <div class="ouija-letter" style="top: 50%; left: 60%;">L</div>
+                <div class="ouija-letter" style="top: 60%; left: 30%;">M</div>
+                <div class="ouija-letter" style="top: 60%; left: 40%;">N</div>
+                <div class="ouija-letter" style="top: 60%; left: 50%;">O</div>
+                <div class="ouija-letter" style="top: 60%; left: 60%;">P</div>
+            </div>
+            <!-- Add decorative candles -->
+            <div class="candle"></div>
+            <div class="candle"></div>
+            <div class="candle"></div>
+            <div class="candle"></div>
+            <div id="ouijaMessage">Ask the spirits...</div>
+            <div id="ouijaPlanchette"></div>
+            <input type="text" id="ouijaQuestion" placeholder="Ask a question..." maxlength="100">
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events">
+        <h2 class="section-title">Haunted Events</h2>
+        <div class="events-grid">
+            <div class="event-card">
+                <h3 class="event-title">🎃 Pumpkin Carving Contest</h3>
+                <p class="event-description">Join us for a spine-tingling pumpkin carving competition! Create the most terrifying jack-o'-lantern and win ghoulish prizes. Bring your own tools of terror!</p>
+            </div>
+            <div class="event-card">
+                <h3 class="event-title">👻 Haunted House Tour</h3>
+                <p class="event-description">Brave souls can explore our haunted mansion filled with ghosts, goblins, and unspeakable horrors. Only the fearless should enter... if they dare!</p>
+            </div>
+            <div class="event-card">
+                <h3 class="event-title">🦇 Costume Party</h3>
+                <p class="event-description">Transform into your most frightening alter ego! Dance with demons, mingle with monsters, and compete for the title of most terrifying costume.</p>
+            </div>
+            <div class="event-card">
+                <h3 class="event-title">🕷️ Midnight Horror Movie Marathon</h3>
+                <p class="event-description">Watch classic horror films under the stars. From vintage vampires to modern monsters, prepare for a night of screams and thrills!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 class="section-title">Contact the Coven</h2>
+        <div class="contact-form">
+            <form>
+                <div class="form-group">
+                    <label for="name">Your Mortal Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email from Beyond:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Your Dark Message:</label>
+                    <textarea id="message" name="message" rows="5" required placeholder="Tell us your deepest fears..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send to the Underworld</button>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        // Initialize audio when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            const screamAudio = document.getElementById('screamAudio');
+            if (screamAudio) {
+                // Pre-load the audio
+                screamAudio.load();
+                // Set initial volume
+                screamAudio.volume = 1.0;
+                
+                // Enable audio on first user interaction
+                const enableAudio = () => {
+                    screamAudio.play().then(() => {
+                        screamAudio.pause();
+                        screamAudio.currentTime = 0;
+                    }).catch(err => console.log('Audio not enabled yet'));
+                };
+                
+                document.body.addEventListener('click', enableAudio, { once: true });
+                document.body.addEventListener('touchstart', enableAudio, { once: true });
+            }
+        });
+
+        // --- ADVANCED HORROR EFFECTS --- //
+
+        // 1. GHOSTLY HAND REACHING FROM SCREEN (fix: use reliable PNG, ensure image loads before animating)
+        function showGhostHand() {
+            if (document.getElementById('ghostHand')) return;
+            const hand = document.createElement('div');
+            hand.id = 'ghostHand';
+            hand.style.position = 'fixed';
+            hand.style.left = (Math.random() * 70 + 10) + 'vw';
+            hand.style.top = '100vh';
+            hand.style.width = '120px';
+            hand.style.height = '160px';
+            hand.style.zIndex = 10001;
+            hand.style.pointerEvents = 'none';
+            hand.style.opacity = '1';
+            hand.style.transition = 'top 1.2s cubic-bezier(.2,1.8,.4,1), opacity 0.5s';
+            hand.innerHTML = `
+                <svg width="120" height="160" viewBox="0 0 120 160" style="display:block">
+                  <!-- Palm -->
+                  <ellipse cx="60" cy="110" rx="32" ry="38" fill="#181818"/>
+                  <!-- Thumb -->
+                  <ellipse cx="30" cy="100" rx="10" ry="28" fill="#181818" transform="rotate(-25 30 100)"/>
+                  <!-- Fingers -->
+                  <ellipse cx="50" cy="60" rx="8" ry="38" fill="#181818"/>
+                  <ellipse cx="70" cy="60" rx="8" ry="38" fill="#181818"/>
+                  <ellipse cx="90" cy="70" rx="8" ry="32" fill="#181818"/>
+                  <ellipse cx="38" cy="80" rx="7" ry="28" fill="#181818"/>
+                  <!-- Highlights for spookiness -->
+                  <ellipse cx="60" cy="120" rx="10" ry="6" fill="#fff" opacity="0.08"/>
+                </svg>
+            `;
+            document.body.appendChild(hand);
+            void hand.offsetWidth;
+            setTimeout(() => {
+                hand.style.top = (Math.random() * 60 + 20) + 'vh';
+            }, 50);
+            setTimeout(() => {
+                hand.style.opacity = '0';
+            }, 1800);
+            setTimeout(() => {
+                if (hand.parentNode) hand.remove();
+            }, 2500);
+        }
+
+        // 2. COLOR INVERSION FLASHES
+        function invertColorsFlash() {
+            document.body.classList.add('invert-flash');
+            setTimeout(() => document.body.classList.remove('invert-flash'), 350);
+        }
+
+        // 3. SHADOWY FIGURE LURKING (fix: add face/eyes for visibility, ensure z-index, fade in/out)
+        function showShadowyFigure() {
+            if (document.getElementById('shadowyFigure')) return;
+            const fig = document.createElement('div');
+            fig.id = 'shadowyFigure';
+            fig.style.position = 'fixed';
+            fig.style.bottom = '0';
+            fig.style.left = Math.random() < 0.5 ? '8vw' : '80vw';
+            fig.style.width = '80px';
+            fig.style.height = '180px';
+            fig.style.opacity = '0';
+            fig.style.zIndex = 10002;
+            fig.style.pointerEvents = 'none';
+            fig.style.transition = 'opacity 0.7s';
+            fig.style.background = 'rgba(0,255,255,0.2)'; // for debug visibility
+            fig.style.border = '2px solid orange'; // for debug visibility
+            // SVG silhouette for shadowy figure
+            fig.innerHTML = `
+                <svg width="80" height="180" viewBox="0 0 80 180" style="display:block">
+                  <ellipse cx="40" cy="50" rx="32" ry="45" fill="#181818"/>
+                  <ellipse cx="40" cy="120" rx="36" ry="60" fill="#111"/>
+                  <ellipse cx="28" cy="48" rx="6" ry="8" fill="#fff" filter="url(#glow)"/>
+                  <ellipse cx="52" cy="48" rx="6" ry="8" fill="#fff" filter="url(#glow)"/>
+                  <defs>
+                    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+                      <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                  </defs>
+                </svg>
+            `;
+            document.body.appendChild(fig);
+            void fig.offsetWidth;
+            setTimeout(() => { fig.style.opacity = '0.92'; }, 50);
+            setTimeout(() => { fig.style.opacity = '0'; }, 2000);
+            setTimeout(() => { if (fig.parentNode) fig.remove(); }, 2700);
+        }
+
+        // 4. BLEEDING SCREEN (fix: use more visible red, fade in/out, ensure overlay is on top)
+        function bleedingScreen() {
+            if (document.getElementById('bleedOverlay')) return;
+            const bleed = document.createElement('div');
+            bleed.id = 'bleedOverlay';
+            bleed.style.position = 'fixed';
+            bleed.style.top = '0';
+            bleed.style.left = '0';
+            bleed.style.width = '100vw';
+            bleed.style.height = '100vh';
+            bleed.style.pointerEvents = 'none';
+            bleed.style.zIndex = 10003;
+            bleed.style.background = 'repeating-linear-gradient(180deg, rgba(255,0,0,0.85) 0 12px, transparent 12px 24px)';
+            bleed.style.opacity = '0';
+            bleed.style.transition = 'opacity 0.5s';
+            document.body.appendChild(bleed);
+            setTimeout(() => { bleed.style.opacity = '0.8'; }, 50);
+            setTimeout(() => { bleed.style.opacity = '0'; }, 1200);
+            setTimeout(() => { bleed.remove(); }, 1800);
+        }
+
+        // 5. TEXT SCRAMBLE EFFECT (on hero title, fix: don't scramble if already running, restore text)
+        let scrambleActive = false;
+        function scrambleText(selector) {
+            if (scrambleActive) return;
+            const el = document.querySelector(selector);
+            if (!el) return;
+            const original = el.getAttribute('data-original') || el.textContent;
+            el.setAttribute('data-original', original);
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+=-~';
+            let scramble = '';
+            let i = 0;
+            scrambleActive = true;
+            const scrambleInterval = setInterval(() => {
+                scramble = '';
+                for (let j = 0; j < original.length; j++) {
+                    scramble += Math.random() < 0.5 ? chars[Math.floor(Math.random()*chars.length)] : original[j];
+                }
+                el.textContent = scramble;
+                i++;
+                if (i > 8) {
+                    clearInterval(scrambleInterval);
+                    el.textContent = original;
+                    scrambleActive = false;
+                }
+            }, 60);
+        }
+
+        // 6. PAGE DISTORTION (wobble)
+        function distortPage() {
+            document.body.classList.add('distort');
+            setTimeout(() => document.body.classList.remove('distort'), 600);
+        }
+
+        // --- ADVANCED SCARE SCHEDULER (fix: run first effect after delay, then at intervals, always pick a new effect) ---
+        function advancedScareScheduler() {
+            const effects = [
+                showGhostHand,
+                invertColorsFlash,
+                showShadowyFigure,
+                bleedingScreen,
+                () => scrambleText('.hero-title'),
+                distortPage
+            ];
+            function runEffect() {
+                const fx = effects[Math.floor(Math.random()*effects.length)];
+                fx();
+            }
+            setTimeout(runEffect, 6000);
+            setInterval(() => {
+                if (Math.random() < 0.7) runEffect();
+            }, 14000);
+        }
+        setTimeout(advancedScareScheduler, 2000);
+
+        // --- FORCE EFFECTS TO APPEAR ON PAGE LOAD FOR TESTING ---
+        // (Removed: ghost hand and shadowy figure now only appear randomly)
+
+        // --- CSS for advanced effects (fix: ensure !important and visibility for overlays) ---
+        const advStyle = document.createElement('style');
+        advStyle.textContent = `
+        .invert-flash {
+            filter: invert(1) hue-rotate(180deg) !important;
+            transition: filter 0.2s !important;
+        }
+        .distort {
+            animation: pageDistort 0.6s cubic-bezier(.2,1.8,.4,1) !important;
+        }
+        @keyframes pageDistort {
+            0% { filter: none; transform: none; }
+            20% { filter: blur(2px) contrast(1.5) hue-rotate(30deg); transform: skewX(2deg) scale(1.01); }
+            40% { filter: blur(1.5px) contrast(0.7) hue-rotate(-20deg); transform: skewY(-2deg) scale(0.99); }
+            60% { filter: blur(2.5px) contrast(1.2) hue-rotate(10deg); transform: skewX(-2deg) scale(1.02); }
+            80% { filter: blur(1px) contrast(1.1) hue-rotate(-10deg); transform: skewY(2deg) scale(0.98); }
+            100% { filter: none; transform: none; }
+        }
+        #bleedOverlay {
+            pointer-events: none !important;
+            z-index: 10003 !important;
+        }
+        #ghostHand {
+            z-index: 10001 !important;
+            pointer-events: none !important;
+        }
+        #shadowyFigure {
+            z-index: 10002 !important;
+            pointer-events: none !important;
+        }
+        `;
+        document.head.appendChild(advStyle);
+        // --- SPOOKY WHISPERS ---
+        const whispers = [
+            'Pssst... I see you...',
+            'Did you hear that?',
+            'You are not alone...',
+            'They are watching...',
+            'Run... while you can...',
+            'The darkness is coming...',
+            'Shhh... listen closely...',
+            'Turn around...',
+            'Beware the shadows...',
+            'Your soul is mine...',
+            'They are near...',
+            'Feel the chill...',
+            'The night is alive...',
+        ];
+        let whisperReady = false;
+        function playWhisper() {
+            if (!window.speechSynthesis) return;
+            const msg = whispers[Math.floor(Math.random() * whispers.length)];
+            const utter = new window.SpeechSynthesisUtterance(msg);
+            utter.volume = 0.3;
+            utter.rate = 0.7;
+            utter.pitch = 0.2;
+            // Pick a whispery or female voice if available
+            const voices = window.speechSynthesis.getVoices();
+            utter.voice = voices.find(v => v.name.toLowerCase().includes('whisper')) || voices.find(v => v.name.toLowerCase().includes('female')) || voices[0];
+            window.speechSynthesis.speak(utter);
+        }
+        // Some browsers require user interaction before speechSynthesis works
+        function enableWhispersOnce() {
+            if (!whisperReady) {
+                playWhisper();
+                whisperReady = true;
+            }
+        }
+        window.addEventListener('click', enableWhispersOnce, { once: true });
+        window.addEventListener('keydown', enableWhispersOnce, { once: true });
+        setInterval(() => {
+            if (whisperReady && Math.random() < 0.25) playWhisper();
+        }, 25000);
+
+        // --- FLICKER EFFECT ---
+        function flickerBg() {
+            document.body.classList.add('flicker');
+            setTimeout(() => document.body.classList.remove('flicker'), 400);
+        }
+        setInterval(() => {
+            if (Math.random() < 0.18) flickerBg();
+        }, 8000);
+
+        // --- SPOOKY EYES FOLLOW CURSOR ---
+        const eyes = document.querySelectorAll('.spooky-eye');
+        document.addEventListener('mousemove', e => {
+            eyes.forEach((eye, i) => {
+                const pupil = eye.querySelector('.spooky-pupil');
+                const rect = eye.getBoundingClientRect();
+                const cx = rect.left + rect.width/2;
+                const cy = rect.top + rect.height/2;
+                const dx = e.clientX - cx;
+                const dy = e.clientY - cy;
+                const angle = Math.atan2(dy, dx);
+                const dist = Math.min(7, Math.hypot(dx, dy)/15);
+                pupil.style.left = 7 + Math.cos(angle)*dist + 'px';
+                pupil.style.top = 7 + Math.sin(angle)*dist + 'px';
+            });
+        });
+
+        // --- DRIPPING BLOOD EFFECT ---
+        function addDrips(targetSelector, count = 6) {
+            const target = document.querySelector(targetSelector);
+            if (!target) return;
+            for (let i = 0; i < count; i++) {
+                const drip = document.createElement('div');
+                drip.className = 'drip';
+                drip.style.left = (10 + Math.random()*80) + '%';
+                drip.style.top = '100%';
+                drip.style.animationDelay = (Math.random()*2) + 's';
+                drip.style.background = 'linear-gradient(to bottom, #ff6b35 60%, #a30000 100%)';
+                drip.style.height = (16 + Math.random()*24) + 'px';
+                drip.style.width = (6 + Math.random()*8) + 'px';
+                drip.style.position = 'absolute';
+                drip.style.zIndex = 1001;
+                target.appendChild(drip);
+                setTimeout(() => drip.remove(), 3000);
+            }
+        }
+        // Add drips to nav and hero title every 10s
+        setInterval(() => {
+            addDrips('nav', 3);
+            addDrips('.hero-title', 2);
+        }, 10000);
+
+        // --- FOG OVERLAY ANIMATION (already in CSS) ---
+
+        // --- HAUNTED CURSOR TRAIL ---
+        const cursorEmojis = ['👻','🦇','🕷️','💀','🕸️'];
+        document.addEventListener('mousemove', e => {
+            const ghost = document.createElement('div');
+            ghost.className = 'ghost-cursor';
+            ghost.textContent = cursorEmojis[Math.floor(Math.random()*cursorEmojis.length)];
+            ghost.style.left = (e.clientX + 8) + 'px';
+            ghost.style.top = (e.clientY + 8) + 'px';
+            document.body.appendChild(ghost);
+            setTimeout(() => ghost.style.opacity = '0', 400);
+            setTimeout(() => ghost.remove(), 800);
+        });
+
+        // --- SHAKE PAGE ON JUMP SCARE ---
+        const origTriggerJumpscare = triggerJumpscare;
+        triggerJumpscare = function() {
+            document.body.classList.add('shake');
+            setTimeout(() => document.body.classList.remove('shake'), 400);
+            origTriggerJumpscare();
+        }
+        // COUNTDOWN TIMER - FIXED AND WORKING!
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const currentYear = new Date().getFullYear();
+            let halloween = new Date(currentYear, 9, 31, 23, 59, 59).getTime();
+            
+            if (now > halloween) {
+                halloween = new Date(currentYear + 1, 9, 31, 23, 59, 59).getTime();
+            }
+            
+            const distance = halloween - now;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = "<h2 style='color: #ff6b35; font-family: Nosifer;'>🎃 IT'S HALLOWEEN! 🎃</h2>";
+            }
+        }
+        
+        // Start the countdown timer
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+        
+        // SPOOKY AUDIO SYSTEM
+        let audioContext; // <-- REMOVE this line to avoid redeclaration
+        let currentMusic;
+        let isPlaying = false;
+        
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+        
+        function createSpookyDrone() {
+            initAudio();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(60, audioContext.currentTime);
+            oscillator.type = 'sawtooth';
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + 2);
+            
+            oscillator.start();
+            return { oscillator, gainNode };
+        }
+        
+
+        // --- REAL SCREAM AUDIO FOR JUMP SCARE ---
+        // Add scream audio element if not present, use a direct .mp3 or .wav file for best compatibility
+        // Scream audio element is now always present in the HTML body
+        // Unlock scream audio on first user gesture (required by most browsers)
+        let screamUnlocked = false;
+        function unlockScreamAudio() {
+            const scream = document.getElementById('screamAudio');
+            if (scream && !screamUnlocked) {
+                scream.volume = 0;
+                scream.play().then(() => {
+                    scream.pause();
+                    scream.currentTime = 0;
+                    scream.volume = 0.85;
+                    screamUnlocked = true;
+                }).catch(() => {
+                    // Ignore errors, will try again on next gesture
+                });
+            }
+        }
+        window.addEventListener('click', unlockScreamAudio, { once: true });
+        window.addEventListener('keydown', unlockScreamAudio, { once: true });
+
+        // JUMP SCARE SYSTEM
+        // List of scary images for jump scare
+        const jumpscareImages = [
+            'https://cdn.pixabay.com/photo/2024/10/03/08/52/halloween-9093143_640.jpg',
+            'https://cdn.pixabay.com/photo/2020/10/21/19/43/jack-o-lanterns-5674148_1280.jpg',
+            'https://cdn.pixabay.com/photo/2024/10/16/14/04/ai-generated-9124827_640.jpg',
+            'https://cdn.pixabay.com/photo/2024/10/06/07/44/ai-generated-9099273_640.jpg'
+        ];
+
+        function triggerJumpscare() {
+            const overlay = document.getElementById('jumpscareOverlay');
+            const image = document.getElementById('jumpscareImage');
+            const scream = document.getElementById('screamAudio');
+
+            // Handle the scream sound
+            if (scream) {
+                // Make sure audio is loaded
+                scream.load();
+                // Set volume to max
+                scream.volume = 1.0;
+                // Reset to start
+                scream.currentTime = 0;
+                // Play the sound
+                try {
+                    // First, create a user gesture if needed
+                    document.body.addEventListener('click', function playHandler() {
+                        document.body.removeEventListener('click', playHandler);
+                        scream.play().catch(err => console.error('Audio play error:', err));
+                    }, { once: true });
+                    
+                    // Try to play immediately as well
+                    scream.play().catch(err => {
+                        console.log('Waiting for user interaction before playing audio');
+                    });
+                } catch (err) {
+                    console.error('Audio error:', err);
+                }
+            }
+
+            // Show jump scare image
+            image.src = jumpscareImages[Math.floor(Math.random() * jumpscareImages.length)];
+            overlay.style.display = 'flex';
+            
+            showNotification('👻 GOTCHA! Did I scare you?');
+            
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 2000);
+        }
+        
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'spooky-notification';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 4000);
+        }
+        
+        // EVENT LISTENERS spooky music
+        document.getElementById('playBtn').addEventListener('click', function() {
+            if (!isPlaying) {
+                currentMusic = createSpookyDrone();
+                isPlaying = true;
+                this.textContent = '🔇 Stop Music';
+                showNotification('🎵 The spirits are awakening...');
+            } else {
+                if (currentMusic) {
+                    currentMusic.oscillator.stop();
+                }
+                isPlaying = false;
+                this.textContent = '🎵 Play Spooky Music';
+                showNotification('🔇 The spirits have been silenced...');
+            }
+        });
+        
+        document.getElementById('jumpscareBtn').addEventListener('click', function() {
+            triggerJumpscare();
+        });
+        
+        // RANDOM JUMP SCARES
+        function scheduleRandomScare() {
+            const delay = Math.random() * 90000 + 30000; // 30-120 seconds
+            setTimeout(() => {
+                if (Math.random() < 0.6) { // 60% chance
+                    triggerJumpscare();
+                }
+                scheduleRandomScare(); // Schedule next one
+            }, delay);
+        }
+        
+        // Start random scares after 15 seconds
+        setTimeout(scheduleRandomScare, 15000);
+        
+        // SPOOKY CLICK EFFECTS
+        let clickCount = 0;
+        document.addEventListener('click', function(e) {
+            clickCount++;
+            if (clickCount % 5 === 0) { // Every 5th click
+                const messages = [
+                    '👻 The spirits felt that click...',
+                    '🦇 Something stirred in the darkness...',
+                    '💀 The dead are watching you...',
+                    '🕷️ A chill runs down your spine...',
+                    '🔥 The flames flicker ominously...',
+                    '🌕 The full moon is rising...',
+                    '🎃 You are being watched...',
+                    '🕸️ The web tightens around you...',
+                ];
+                showNotification(messages[Math.floor(Math.random() * messages.length)]);
+            }
+        });
+        
+        // SMOOTH SCROLLING
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+        
+        // FLOATING ELEMENTS
+        function createFloatingElement() {
+            const elements = ['👻', '🦇', '🕷️', '🕸️', '💀'];
+            const element = document.createElement('div');
+            element.textContent = elements[Math.floor(Math.random() * elements.length)];
+            element.className = 'ghost';
+            element.style.position = 'fixed';
+            element.style.left = Math.random() * 100 + '%';
+            element.style.top = Math.random() * 100 + '%';
+            element.style.fontSize = (Math.random() * 1.5 + 0.5) + 'rem';
+            element.style.zIndex = '1';
+            element.style.pointerEvents = 'none';
+            element.style.opacity = '0.6';
+            
+            document.querySelector('.floating-elements').appendChild(element);
+            
+            setTimeout(() => {
+                element.remove();
+            }, 10000);
+        }
+        
+        setInterval(createFloatingElement, 4000);
+        
+        // FORM HANDLER
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showNotification('📧 Your message has been sent to the underworld!');
+            this.reset();
+        });
+        
+        // TITLE CHANGES
+        const spookyTitles = [
+            'SPOOKY HALLOWEEN',
+            'ENTER THE DARKNESS',
+            'NIGHT OF TERROR',
+            'WELCOME TO NIGHTMARE',
+            'THE HAUNTED REALM',
+            'DANCE WITH THE DEAD',
+            'WHISPERING SHADOWS',
+            'THE CURSED LAND',
+        ];
+        
+        setInterval(() => {
+            const heroTitle = document.querySelector('.hero-title');
+            heroTitle.textContent = spookyTitles[Math.floor(Math.random() * spookyTitles.length)];
+        }, 8000);
+        
+
+        // WELCOME MESSAGE
+        setTimeout(() => {
+            showNotification('🎃 Welcome to the haunted realm... Click around to explore!');
+        }, 3000);
+
+        // OUIJA BOARD
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Ouija board
+            const responses = [
+                "Yes...",
+                "No...",
+                "Maybe...",
+                "Ask again...",
+                "The spirits are unclear...",
+                "Beware...",
+                "Indeed...",
+                "Never...",
+                "Soon...",
+                "The dead say no...",
+                "The spirits agree...",
+                "Danger lies ahead...",
+                "The answer lies in darkness...",
+                "The moon will tell...",
+                "Follow the shadows..."
+            ];
+            
+            const planchette = document.getElementById('ouijaPlanchette');
+            const messageDisplay = document.getElementById('ouijaMessage');
+            const questionInput = document.getElementById('ouijaQuestion');
+            const ouijaBoard = document.getElementById('ouijaBoard');
+            
+            if (!planchette || !messageDisplay || !questionInput || !ouijaBoard) {
+                console.error('Ouija board elements not found!');
+                return;
+            }
+
+            // Add planchette SVG if not present
+            if (!planchette.innerHTML) {
+                planchette.innerHTML = `
+                    <svg viewBox="0 0 100 150" width="100%" height="100%">
+                        <path d="M50 10 L90 120 L50 140 L10 120 Z" fill="#654321"/>
+                        <circle cx="50" cy="50" r="15" fill="none" stroke="#ff6b35" stroke-width="2"/>
+                    </svg>
+                `;
+            }
+
+            let isMoving = false;
+            let isDragging = false;
+            let startX, startY, startPosX, startPosY;
+
+            function movePlanchette(x, y) {
+                const bounds = ouijaBoard.getBoundingClientRect();
+                const maxX = bounds.width - planchette.offsetWidth;
+                const maxY = bounds.height - planchette.offsetHeight;
+                
+                x = Math.max(0, Math.min(x, maxX));
+                y = Math.max(0, Math.min(y, maxY));
+                
+                planchette.style.transform = `translate(${x}px, ${y}px)`;
+            }
+
+            function getRandomPosition() {
+                return {
+                    x: Math.random() * (ouijaBoard.offsetWidth - planchette.offsetWidth),
+                    y: Math.random() * (ouijaBoard.offsetHeight - planchette.offsetHeight)
+                };
+            }
+
+            function animatePlanchette() {
+                if (!isMoving) return;
+                
+                const positions = Array(5).fill(null).map(() => getRandomPosition());
+                let current = 0;
+                
+                function animate() {
+                    if (!isMoving || current >= positions.length) {
+                        isMoving = false;
+                        return;
+                    }
+                    
+                    movePlanchette(positions[current].x, positions[current].y);
+                    current++;
+                    setTimeout(animate, 300);
+                }
+                
+                animate();
+            }
+
+            // Make planchette draggable
+            planchette.addEventListener('mousedown', function(e) {
+                if (isMoving) return;
+                isDragging = true;
+                planchette.classList.add('moving');
+                
+                const bounds = planchette.getBoundingClientRect();
+                startX = e.clientX;
+                startY = e.clientY;
+                startPosX = bounds.left - ouijaBoard.getBoundingClientRect().left;
+                startPosY = bounds.top - ouijaBoard.getBoundingClientRect().top;
+                
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                movePlanchette(startPosX + dx, startPosY + dy);
+            });
+
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+                planchette.classList.remove('moving');
+            });
+
+            questionInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !isMoving && !isDragging) {
+                    e.preventDefault();
+                    const question = this.value.trim();
+                    if (!question) return;
+                    
+                    // Disable input while spirits are responding
+                    this.disabled = true;
+                    messageDisplay.textContent = "The spirits are considering...";
+                    messageDisplay.classList.add('show');
+                    isMoving = true;
+                    animatePlanchette();
+                    
+                    setTimeout(() => {
+                        isMoving = false;
+                        const response = responses[Math.floor(Math.random() * responses.length)];
+                        messageDisplay.textContent = response;
+                        if (Math.random() < 0.1) {  // 10% chance of jump scare
+                            setTimeout(triggerJumpscare, 1500);
+                        }
+                        this.value = '';
+                        this.disabled = false;
+                        this.focus();
+                    }, 2000);
+
+                    // Add spooky effects
+                    flickerBg();
+                    if (Math.random() < 0.3) {  // 30% chance of whisper
+                        playWhisper();
+                    }
+                }
+            });
+
+            // Initialize planchette position
+            planchette.style.transform = 'translate(-50%, -50%)';
+        });
+
+        // --- SPOOKY CHAT WIDGET ---
+        (function() {
+            const chatToggle = document.getElementById('spookyChatToggle');
+            const chatWidget = document.getElementById('spookyChatWidget');
+            const chatForm = document.getElementById('spookyChatForm');
+            const chatInput = document.getElementById('spookyChatInput');
+            const chatMessages = document.getElementById('spookyChatMessages');
+
+            chatToggle.addEventListener('click', () => {
+                chatWidget.style.display = chatWidget.style.display === 'flex' ? 'none' : 'flex';
+                if (chatWidget.style.display === 'flex') {
+                    chatInput.focus();
+                }
+            });
+
+            chatForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const msg = chatInput.value.trim();
+                if (!msg) return;
+                appendChat('You', msg);
+                chatInput.value = '';
+                setTimeout(() => spookyBotReply(msg), 700);
+            });
+
+            function appendChat(sender, text) {
+                const div = document.createElement('div');
+                div.innerHTML = `<b>${sender}:</b> ${escapeHtml(text)}`;
+                chatMessages.appendChild(div);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function escapeHtml(str) {
+                return str.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+            }
+
+            function spookyBotReply(userMsg) {
+                // Simple spooky responses
+                const responses = [
+                    "The shadows whisper your name...",
+                    "Beware what you wish for...",
+                    "I see things you cannot...",
+                    "The night is full of secrets...",
+                    "Do you feel the chill?",
+                    "Not all who wander are lost... some are trapped.",
+                    "The spirits are listening...",
+                    "You are not alone here...",
+                    "Ask, and the darkness may answer...",
+                    "👻 Boo! Did I startle you?",
+                    "The veil is thin tonight...",
+                    "My name is jack... Jack O'Lantern.",
+                    "The darkness knows your fears...",
+                ];
+                // Easter egg: if user says "hello" or "hi"
+                if (/\bhello\b|\bhi\b|\bhey\b/i.test(userMsg)) {
+                    appendChat('Spirit', "Greetings, mortal. Welcome to the haunted realm...");
+                    return;
+                }
+                // Easter egg: if user says "scare me"
+                if (/scare me/i.test(userMsg)) {
+                    appendChat('Spirit', "Very well... prepare yourself!");
+                    setTimeout(triggerJumpscare, 1200);
+                    return;
+                }
+                // Otherwise random spooky response
+                appendChat('Spirit', responses[Math.floor(Math.random()*responses.length)]);
+            }
+        })();
+    </script>
+
+    <!-- Spooky Chat Widget (single instance, at end of body) -->
+    <button class="spooky-chat-toggle" id="spookyChatToggle" title="Chat with the spirits!">💬</button>
+    <div class="spooky-chat-widget" id="spookyChatWidget" style="display:none;">
+        <div class="spooky-chat-header">👻 Spooky Chat</div>
+        <div class="spooky-chat-messages" id="spookyChatMessages">
+            <div><b>Spirit:</b> Welcome, mortal... What haunts your mind?</div>
+        </div>
+        <form class="spooky-chat-input-row" id="spookyChatForm" autocomplete="off">
+            <input class="spooky-chat-input" id="spookyChatInput" type="text" placeholder="Type your message..." maxlength="120" />
+            <button class="spooky-chat-send" type="submit">➤</button>
+        </form>
+    </div>
+    <script>
+    // --- SPOOKY CHAT WIDGET ---
+    (function() {
+        const chatToggle = document.getElementById('spookyChatToggle');
+        const chatWidget = document.getElementById('spookyChatWidget');
+        const chatForm = document.getElementById('spookyChatForm');
+        const chatInput = document.getElementById('spookyChatInput');
+        const chatMessages = document.getElementById('spookyChatMessages');
+
+        chatToggle.addEventListener('click', () => {
+            if (chatWidget.style.display === 'flex') {
+                chatWidget.style.display = 'none';
+            } else {
+                chatWidget.style.display = 'flex';
+                chatInput.focus();
+            }
+        });
+
+        chatForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const msg = chatInput.value.trim();
+            if (!msg) return;
+            appendChat('You', msg);
+            chatInput.value = '';
+            setTimeout(() => spookyBotReply(msg), 700);
+        });
+
+        function appendChat(sender, text) {
+            const div = document.createElement('div');
+            div.innerHTML = `<b>${sender}:</b> ${escapeHtml(text)}`;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+        }
+
+        function spookyBotReply(userMsg) {
+            // Simple spooky responses
+            const responses = [
+                "The shadows whisper your name...",
+                "Beware what you wish for...",
+                "I see things you cannot...",
+                "The night is full of secrets...",
+                "Do you feel the chill?",
+                "Not all who wander are lost... some are trapped.",
+                "The spirits are listening...",
+                "You are not alone here...",
+                "Ask, and the darkness may answer...",
+                "👻 Boo! Did I startle you?",
+                "The veil is thin tonight..."
+            ];
+            // Easter egg: if user says "hello" or "hi"
+            if (/\bhello\b|\bhi\b|\bhey\b/i.test(userMsg)) {
+                appendChat('Spirit', "Greetings, mortal. Welcome to the haunted realm...");
+                return;
+            }
+            // Easter egg: if user says "scare me"
+            if (/scare me/i.test(userMsg)) {
+                appendChat('Spirit', "Very well... prepare yourself!");
+                setTimeout(triggerJumpscare, 1200);
+                return;
+            }
+            // Otherwise random spooky response
+            appendChat('Spirit', responses[Math.floor(Math.random()*responses.length)]);
+        }
+    })();
+    </script>
+</body>
+</html>
